@@ -59,6 +59,7 @@
     .right-header a.logout-link {
       color: #e6bc74;
       text-decoration: none;
+      /* background-color: #5a2e1e; */
       padding: 6px 12px;
       border-radius: 8px;
       transition: background-color 0.3s;
@@ -165,9 +166,38 @@
   </div>
 
   <!-- Konten utama -->
-  <p>Ini adalah halaman dasbor admin.</p>
+  <div class="container mt-4">
+  <h4 class=" mb-3" style="color: #e6bc74;">Catatan Pesan Chatbot</h4>
+  <div class="table-responsive">
+    <table class="table table-dark table-bordered">
+      <thead class="table-warning text-dark">
+        <tr>
+          <th scope="col">Tanggal</th>
+          <th scope="col">Pesan Pengguna</th>
+          <th scope="col">Balasan Chatbot</th>
+          <th scope="col">Opsi</th>
+        </tr>
+      </thead>
+      <tbody id="chatLogBody">
+        <!-- Baris data akan di-generate lewat JavaScript -->
+      </tbody>
+    </table>
+  </div>
 
-    <!-- Bottom navigation -->
+  <!-- Pagination -->
+  <nav>
+    <ul class="pagination justify-content-center" id="pagination">
+      <!-- Halaman akan diisi lewat JavaScript -->
+    </ul>
+  </nav>
+</div>
+
+
+
+
+
+
+  <!-- Bottom navigation -->
   <nav class="bottom-nav">
     <a href="dasbor.html" aria-label="Dasbor">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -188,6 +218,78 @@
       Manajemen Kamus
     </a>
   </nav>
+
+
+
+  <script>
+  // Contoh data dummy (ganti dengan data sebenarnya dari backend jika ada)
+  const chatLogs = [
+    { date: "2025-05-01", user: "Apa itu Menawi?", bot: "Menawi adalah..." },
+    { date: "2025-05-02", user: "Bagaimana cara belajar?", bot: "Anda bisa mulai dengan..." },
+    { date: "2025-05-03", user: "Kapan kelas dimulai?", bot: "Kelas dimulai setiap hari Senin." },
+    { date: "2025-05-04", user: "Ada grup WA?", bot: "Ya, silakan mendaftar dulu." },
+    { date: "2025-05-05", user: "Apakah gratis?", bot: "Benar, layanan ini gratis." },
+    { date: "2025-05-06", user: "Dimana lokasi belajar?", bot: "Belajar dilakukan secara online." },
+    // Tambahkan lebih banyak data...
+  ];
+
+  const rowsPerPage = 5;
+  let currentPage = 1;
+
+  function displayTable(page) {
+    const tbody = document.getElementById('chatLogBody');
+    tbody.innerHTML = '';
+
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginatedData = chatLogs.slice(start, end);
+
+    paginatedData.forEach((log, index) => {
+      const row = `
+        <tr>
+          <td class="text-light">${log.date}</td>
+          <td class="text-light">${log.user}</td>
+          <td class="text-light">${log.bot}</td>
+          <td class="text-light"><button class="btn text-danger" onclick="deleteRow(${start + index})"><i class="bi bi-trash"></i></button></td>
+        </tr>
+      `;
+      tbody.insertAdjacentHTML('beforeend', row);
+    });
+
+    displayPagination();
+  }
+
+  function displayPagination() {
+    const totalPages = Math.ceil(chatLogs.length / rowsPerPage);
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+      const li = document.createElement('li');
+      li.className = `page-item ${i === currentPage ? 'active text-decoration-underline' : ''}`;
+      li.innerHTML = `<a class="mx-2 text-light text-decoration-none" href="#" onclick="changePage(${i})">${i}</a>`;
+      pagination.appendChild(li);
+    }
+  }
+
+  function changePage(page) {
+    currentPage = page;
+    displayTable(currentPage);
+  }
+
+  function deleteRow(index) {
+    if (confirm('Yakin ingin menghapus pesan ini?')) {
+      chatLogs.splice(index, 1);
+      displayTable(currentPage);
+    }
+  }
+
+  // Inisialisasi tampilan pertama
+  displayTable(currentPage);
+</script>
+
+
+
 
   <script>
     // Cek apakah user sudah login
