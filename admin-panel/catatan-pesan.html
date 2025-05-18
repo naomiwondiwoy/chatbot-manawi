@@ -11,10 +11,9 @@
       background-color: #0b3b42;
       color: white;
       font-family: 'Segoe UI', sans-serif;
-      padding: 40px 20px 80px; /* beri padding bawah untuk ruang navbar */
+      padding: 40px 20px 80px;
       margin: 0;
     }
-
     .header {
       background-color: #0b3b42;
       padding: 10px 15px;
@@ -22,87 +21,26 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid #e6bc74;
-      position: relative;
-      z-index: 100;
     }
-
-    .left-header {
+    .left-header, .right-header {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
-    .left-header img {
-      width: 40px;
-    }
-
-    .left-header .title {
-      font-size: 18px;
-      font-weight: 600;
-      margin: 0;
-      color: #e6bc74;
-    }
-
-    .right-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .right-header span#usernameDisplay {
-      color: #e6bc74;
-      white-space: nowrap;
-    }
-
+    .left-header img { width: 40px; }
+    .left-header .title { font-size: 18px; font-weight: 600; color: #e6bc74; }
+    .right-header span#usernameDisplay { color: #e6bc74; }
     .right-header a.logout-link {
       color: #e6bc74;
       text-decoration: none;
-      /* background-color: #5a2e1e; */
       padding: 6px 12px;
       border-radius: 8px;
       transition: background-color 0.3s;
     }
-
     .right-header a.logout-link:hover {
       background-color: #4b2416;
       color: white;
     }
-
-    /* Container kanan atas untuk username + logout */
-    .top-right {
-      position: fixed;
-      top: 10px;
-      right: 15px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 600;
-      font-size: 14px;
-      z-index: 1100;
-    }
-
-    .top-right span#usernameDisplay {
-      color: #e6bc74;
-      white-space: nowrap;
-    }
-
-    .top-right a.logout-link {
-      color: #e6bc74;
-      text-decoration: none;
-      background-color: #5a2e1e;
-      padding: 6px 12px;
-      border-radius: 8px;
-      transition: background-color 0.3s;
-    }
-
-    .top-right a.logout-link:hover {
-      background-color: #4b2416;
-      color: white;
-    }
-
-    /* Navbar bottom */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -115,7 +53,6 @@
       padding: 10px 0;
       z-index: 1000;
     }
-
     .bottom-nav a {
       color: #e6bc74;
       text-decoration: none;
@@ -125,79 +62,51 @@
       align-items: center;
       font-weight: 600;
     }
-
-    .bottom-nav a:hover {
-      color: #fff;
-    }
-
-    /* Optional: icon styling */
+    .bottom-nav a:hover { color: #fff; }
     .bottom-nav a svg {
       width: 24px;
       height: 24px;
       margin-bottom: 4px;
       fill: #e6bc74;
     }
-    .bottom-nav a:hover svg {
-      fill: #fff;
-    }
+    .bottom-nav a:hover svg { fill: #fff; }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <!-- Kiri (logo + judul) -->
     <div class="left-header">
       <img src="../assets/img/logo.png" alt="Logo" />
       <h5 class="title">Admin Panel</h5>
     </div>
-
-    <!-- Kanan (username + logout) -->
     <div class="right-header">
       <span id="usernameDisplay"></span>
       <a href="#" class="logout-link" onclick="logout()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" 
-            viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 4px;">
-          <path d="M6 13.5A1.5 1.5 0 0 0 7.5 15h5a1.5 1.5 0 0 0 1.5-1.5v-11A1.5 1.5 0 0 0 12.5 1h-5A1.5 1.5 0 0 0 6 2.5v2a.5.5 0 0 0 1 0v-2A.5.5 0 0 1 7.5 2h5a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2z"/>
-          <path d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
-        </svg>
-        Logout
+        <i class="bi bi-box-arrow-right"></i> Logout
       </a>
     </div>
   </div>
 
-  <!-- Konten utama -->
   <div class="container mt-4">
-  <h4 class=" mb-3" style="color: #e6bc74;">Catatan Pesan Chatbot</h4>
-  <div class="table-responsive">
-    <table class="table table-dark table-bordered">
-      <thead class="table-warning text-dark">
-        <tr>
-          <th scope="col">Tanggal</th>
-          <th scope="col">Pesan Pengguna</th>
-          <th scope="col">Balasan Chatbot</th>
-          <th scope="col">Opsi</th>
-        </tr>
-      </thead>
-      <tbody id="chatLogBody">
-        <!-- Baris data akan di-generate lewat JavaScript -->
-      </tbody>
-    </table>
+    <h4 class="mb-3" style="color: #e6bc74;">Catatan Pesan Chatbot</h4>
+    <div class="table-responsive">
+      <table class="table table-dark table-bordered">
+        <thead class="table-warning text-dark">
+          <tr>
+            <th scope="col">Tanggal</th>
+            <th scope="col">Pesan Pengguna</th>
+            <th scope="col">Balasan Chatbot</th>
+            <th scope="col">Opsi</th>
+          </tr>
+        </thead>
+        <tbody id="chatLogBody"></tbody>
+      </table>
+    </div>
+    <nav>
+      <ul class="pagination justify-content-center" id="pagination"></ul>
+    </nav>
   </div>
 
-  <!-- Pagination -->
-  <nav>
-    <ul class="pagination justify-content-center" id="pagination">
-      <!-- Halaman akan diisi lewat JavaScript -->
-    </ul>
-  </nav>
-</div>
-
-
-
-
-
-
-  <!-- Bottom navigation -->
   <nav class="bottom-nav">
     <a href="dasbor.html" aria-label="Dasbor">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -219,93 +128,117 @@
     </a>
   </nav>
 
-
-
   <script>
-  // Contoh data dummy (ganti dengan data sebenarnya dari backend jika ada)
-  const chatLogs = [
-    { date: "2025-05-01", user: "Apa itu Menawi?", bot: "Menawi adalah..." },
-    { date: "2025-05-02", user: "Bagaimana cara belajar?", bot: "Anda bisa mulai dengan..." },
-    { date: "2025-05-03", user: "Kapan kelas dimulai?", bot: "Kelas dimulai setiap hari Senin." },
-    { date: "2025-05-04", user: "Ada grup WA?", bot: "Ya, silakan mendaftar dulu." },
-    { date: "2025-05-05", user: "Apakah gratis?", bot: "Benar, layanan ini gratis." },
-    { date: "2025-05-06", user: "Dimana lokasi belajar?", bot: "Belajar dilakukan secara online." },
-    // Tambahkan lebih banyak data...
-  ];
+    const rowsPerPage = 5;
+    let currentPage = 1;
+    let chatLogs = [];
 
-  const rowsPerPage = 5;
-  let currentPage = 1;
-
-  function displayTable(page) {
-    const tbody = document.getElementById('chatLogBody');
-    tbody.innerHTML = '';
-
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    const paginatedData = chatLogs.slice(start, end);
-
-    paginatedData.forEach((log, index) => {
-      const row = `
-        <tr>
-          <td class="text-light">${log.date}</td>
-          <td class="text-light">${log.user}</td>
-          <td class="text-light">${log.bot}</td>
-          <td class="text-light"><button class="btn text-danger" onclick="deleteRow(${start + index})"><i class="bi bi-trash"></i></button></td>
-        </tr>
-      `;
-      tbody.insertAdjacentHTML('beforeend', row);
-    });
-
-    displayPagination();
-  }
-
-  function displayPagination() {
-    const totalPages = Math.ceil(chatLogs.length / rowsPerPage);
-    const pagination = document.getElementById('pagination');
-    pagination.innerHTML = '';
-
-    for (let i = 1; i <= totalPages; i++) {
-      const li = document.createElement('li');
-      li.className = `page-item ${i === currentPage ? 'active text-decoration-underline' : ''}`;
-      li.innerHTML = `<a class="mx-2 text-light text-decoration-none" href="#" onclick="changePage(${i})">${i}</a>`;
-      pagination.appendChild(li);
+    // Fetch data dari catatan-pesan.php
+    async function fetchChatLogs() {
+      try {
+        const response = await fetch('catatan-pesan.php');
+        if (!response.ok) throw new Error('Gagal mengambil data');
+        const data = await response.json();
+        chatLogs = data;
+        displayTable(currentPage);
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Gagal memuat data chat.');
+      }
     }
-  }
 
-  function changePage(page) {
-    currentPage = page;
-    displayTable(currentPage);
-  }
+    function displayTable(page) {
+      const tbody = document.getElementById('chatLogBody');
+      tbody.innerHTML = '';
 
-  function deleteRow(index) {
-    if (confirm('Yakin ingin menghapus pesan ini?')) {
+      const start = (page - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const paginatedData = chatLogs.slice(start, end);
+
+      paginatedData.forEach((log, index) => {
+        // Format tanggal jika perlu (misal: YYYY-MM-DD jadi DD-MM-YYYY)
+        const tanggal = new Date(log.created_at).toLocaleDateString('id-ID', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        });
+
+        const row = `
+          <tr>
+            <td class="text-light">${tanggal}</td>
+            <td class="text-light">${escapeHtml(log.user_message)}</td>
+            <td class="text-light">${escapeHtml(log.bot_response)}</td>
+            <td class="text-light text-center">
+              <button class="btn btn-sm btn-danger" onclick="deleteRow(${start + index})" title="Hapus">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+        tbody.insertAdjacentHTML('beforeend', row);
+      });
+
+      displayPagination();
+    }
+
+    function displayPagination() {
+      const totalPages = Math.ceil(chatLogs.length / rowsPerPage);
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = '';
+
+      for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement('li');
+        li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener('click', (e) => {
+          e.preventDefault();
+          currentPage = i;
+          displayTable(currentPage);
+        });
+        pagination.appendChild(li);
+      }
+    }
+
+    function logout() {
+      alert('Logout berhasil!');
+      // Implementasi logout sebenarnya bisa ditambah di sini
+    }
+
+    function deleteRow(index) {
+      if (!confirm('Apakah Anda yakin ingin menghapus catatan ini?')) return;
+
+      // Hapus dari array lokal
       chatLogs.splice(index, 1);
+      // Jika ingin hapus permanen, harus dilakukan request ke server (belum tersedia)
+
+      // Jika halaman kosong setelah hapus, mundur ke halaman sebelumnya
+      const totalPages = Math.ceil(chatLogs.length / rowsPerPage);
+      if (currentPage > totalPages && currentPage > 1) currentPage--;
+
       displayTable(currentPage);
     }
-  }
 
-  // Inisialisasi tampilan pertama
-  displayTable(currentPage);
-</script>
-
-
-
-
-  <script>
-    // Cek apakah user sudah login
-    const username = localStorage.getItem('username');
-    if (!username) {
-      alert("Anda harus login terlebih dahulu.");
-      window.location.href = "login.html";
-    } else {
-      document.getElementById('usernameDisplay').textContent = username;
+    // Fungsi untuk menghindari XSS
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
-    // Logout function
-    function logout() {
-      localStorage.removeItem('username');
-      window.location.href = "login.html";
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('usernameDisplay').textContent = 'Admin';
+      fetchChatLogs();
+
+      // Realtime update setiap 10 detik
+      setInterval(() => {
+        fetchChatLogs();
+      }, 10000);
+    });
+
   </script>
 </body>
 </html>
