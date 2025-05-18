@@ -24,7 +24,7 @@ $password = $data['password'];
 $host = "localhost";
 $dbname = "menawi_chatbot_db"; // Ganti dengan nama database Anda
 $dbuser = "root"; // Ganti jika perlu
-$dbpass = ""; // Ganti jika perlu
+$dbpass = "root"; // Ganti jika perlu
 
 $conn = new mysqli($host, $dbuser, $dbpass, $dbname);
 
