@@ -1,0 +1,16 @@
+<aiml version="1.0.1" encoding="UTF-8">
+  <category>
+    <pattern>TERIMA KASIH</pattern>
+    <template>Sama-sama! Dalam Bahasa Menawi, "terima kasih" adalah "Tabea".</template>
+  </category>
+
+  <category>
+    <pattern>MAKASIH</pattern>
+    <template>Tabea! Itu berarti "terima kasih" dalam Bahasa Menawi.</template>
+  </category>
+
+  <category>
+    <pattern>SAMA SAMA</pattern>
+    <template>Dengan senang hati! Dalam Bahasa Menawi bisa dijawab dengan "Ebe".</template>
+  </category>
+</aiml>

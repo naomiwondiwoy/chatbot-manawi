@@ -1,0 +1,106 @@
+<aiml version="1.0.1" encoding="UTF-8">
+  <category>
+    <pattern>AYAH</pattern>
+    <template>Dalam Bahasa Menawi, "ayah" adalah "Dai".</template>
+  </category>
+
+  <category>
+    <pattern>IBU</pattern>
+    <template>"Ibu" dalam Bahasa Menawi adalah "Mane".</template>
+  </category>
+
+  <category>
+    <pattern>MAKAN</pattern>
+    <template>"Makan" dalam Bahasa Menawi adalah "Sine".</template>
+  </category>
+
+  <category>
+    <pattern>ULANG KABAR</pattern>
+    <template>Saya baik, terima kasih! Ada yang bisa saya bantu tentang Bahasa Menawi?</template>
+  </category>
+
+  <category>
+    <pattern>PERKENALKAN DIRIMU</pattern>
+    <template>Saya adalah asisten AI yang dirancang untuk membantu Anda belajar Bahasa Menawi. Silakan ajukan pertanyaan!</template>
+  </category>
+
+  <category>
+    <pattern>ULAR</pattern>
+    <template>"Ular" dalam Bahasa Menawi adalah "Tawai".</template>
+  </category>
+
+  <category>
+    <pattern>IKAN</pattern>
+    <template>"Ikan" dalam Bahasa Menawi adalah "Diang".</template>
+  </category>
+
+  <category>
+    <pattern>KUPU-KUPU</pattern>
+    <template>"Kupu-Kupu" dalam Bahasa Menawi adalah "Kamambo".</template>
+  </category>
+
+  <category>
+    <pattern>ANJING</pattern>
+    <template>"Anjing" dalam Bahasa Menawi adalah "Fyawera".</template>
+  </category>
+
+  <category>
+    <pattern>AMIN</pattern>
+    <template>"Amin" dalam Bahasa Menawi adalah "Antu".</template>
+  </category>
+
+  <category>
+    <pattern>BAJU</pattern>
+    <template>"Baju" dalam Bahasa Menawi adalah "Asung".</template>
+  </category>
+
+  <category>
+    <pattern>TKAN</pattern>
+    <template>"Tkan" dalam Bahasa Menawi adalah "Diang".</template>
+  </category>
+
+  <category>
+    <pattern>CELANA</pattern>
+    <template>"Celana" dalam Bahasa Menawi adalah "Saranda".</template>
+  </category>
+
+  <category>
+    <pattern>NYAMUK</pattern>
+    <template>"Nyamuk" dalam Bahasa Menawi adalah "Fikarari".</template>
+  </category>
+
+  <category>
+    <pattern>SELAMAT</pattern>
+    <template>"Selamat" dalam Bahasa Menawi bisa diucapkan "Pagi Mahikai Kameai" untuk menyapa di pagi hari.</template>
+  </category>
+
+  <category>
+    <pattern>SELAMAT TAHUN BARU</pattern>
+    <template>"Selamat Tahun Baru" dalam Bahasa Menawi adalah "Mahikai Fuing Weworu".</template>
+  </category>
+
+  <category>
+    <pattern>TALAN</pattern>
+    <template>"Talan" dalam Bahasa Menawi adalah "Rang".</template>
+  </category>
+
+  <category>
+    <pattern>BAPA</pattern>
+    <template>"Bapa" atau "Ayah" dalam Bahasa Menawi adalah "Dai".</template>
+  </category>
+
+  <category>
+    <pattern>MAMA</pattern>
+    <template>"Mama" atau "Ibu" dalam Bahasa Menawi adalah "Ai".</template>
+  </category>
+
+  <category>
+    <pattern>JALAN</pattern>
+    <template>"Jalan" dalam Bahasa Menawi adalah "Rang".</template>
+  </category>
+
+  <category>
+    <pattern>ANAK</pattern>
+    <template>"Anak" dalam Bahasa Menawi adalah "Arikang".</template>
+  </category>
+</aiml>

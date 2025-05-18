@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chatbot AIML PHP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    #chat-box {
+      height: 400px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      padding: 15px;
+      background-color: #f9f9f9;
+    }
+    .user-msg {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+    .bot-msg {
+      text-align: left;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body class="p-3">
+
+  <div class="container">
+    <h2 class="mb-3">Chatbot AIML dengan PHP</h2>
+
+    <div id="chat-box" class="mb-3"></div>
+
+    <div class="input-group">
+      <input type="text" id="userInput" class="form-control" placeholder="Ketik pesan..." />
+      <button id="sendBtn" class="btn btn-primary">Kirim</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    function addMessage(content, sender) {
+      const div = document.createElement('div');
+      div.className = sender === 'user' ? 'user-msg' : 'bot-msg';
+      div.textContent = content;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+
+      addMessage(message, 'user');
+      userInput.value = '';
+
+      try {
+        const response = await fetch('hybrid_chatbot.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: 'message=' + encodeURIComponent(message)
+        });
+
+        const data = await response.json(); // parse JSON langsung
+        if (data.reply) {
+          addMessage(data.reply, 'bot');
+        } else if (data.error) {
+          addMessage('Error: ' + data.error, 'bot');
+        } else {
+          addMessage('Error: Response tidak valid.', 'bot');
+        }
+      } catch (error) {
+        addMessage('Error: Tidak dapat menghubungi server.', 'bot');
+      }
+    }
+
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+
+</body>
+</html>

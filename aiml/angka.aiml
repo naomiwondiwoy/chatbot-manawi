@@ -1,0 +1,26 @@
+<aiml version="1.0.1" encoding="UTF-8">
+  <category>
+    <pattern>SATU</pattern>
+    <template>Dalam Bahasa Menawi, "satu" adalah "na".</template>
+  </category>
+
+  <category>
+    <pattern>DUA</pattern>
+    <template>"Dua" dalam Bahasa Menawi adalah "naua".</template>
+  </category>
+
+  <category>
+    <pattern>TIGA</pattern>
+    <template>"Tiga" dalam Bahasa Menawi adalah "tiga".</template>
+  </category>
+
+  <category>
+    <pattern>EMPAT</pattern>
+    <template>"Empat" dalam Bahasa Menawi adalah "epat".</template>
+  </category>
+
+  <category>
+    <pattern>LIMA</pattern>
+    <template>"Lima" dalam Bahasa Menawi adalah "lima".</template>
+  </category>
+</aiml>
