@@ -6,7 +6,7 @@ require_once 'db.php';
 $apiToken = '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'; // token Groq-mu
 $model = 'meta-llama/llama-4-scout-17b-16e-instruct';
 
-$message = $_POST['message'] ?? '';
+$message = isset($_POST['message']) ? $_POST['message'] : '';
 $message = trim($message);
 
 if (!$message) {

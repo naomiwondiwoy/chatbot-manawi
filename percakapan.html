@@ -187,7 +187,7 @@
     const chatBox = document.getElementById('chat-box');
     const userInput = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
-
+  
     function addMessage(content, sender) {
       const div = document.createElement('div');
       div.className = 'message ' + sender;
@@ -195,35 +195,49 @@
       chatBox.appendChild(div);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
-
+  
     async function sendMessage() {
       const message = userInput.value.trim();
       if (!message) return;
-
+  
       addMessage(message, 'user');
       userInput.value = '';
-
+  
       try {
         const response = await fetch('hybrid_chatbot.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: 'message=' + encodeURIComponent(message)
         });
-
-        const data = await response.json();
+  
+        const responseText = await response.text();
+        console.log("Response dari server:", responseText); // 🔍 log untuk debug
+  
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (e) {
+          console.error("JSON parse error:", e);
+          addMessage('⚠️ Error: Respon server tidak valid (bukan JSON).', 'bot');
+          return;
+        }
+  
         if (data.reply) {
           addMessage(data.reply, 'bot');
         } else if (data.error) {
-          addMessage('Error: ' + data.error, 'bot');
+          addMessage('❌ ' + data.error, 'bot');
         } else {
-          addMessage('Error: Respon tidak valid.', 'bot');
+          addMessage('⚠️ Error: Respon tidak dikenali.', 'bot');
         }
+  
       } catch (error) {
-        addMessage('Error: Gagal menghubungi server.', 'bot');
+        console.error("Fetch error:", error);
+        addMessage('❌ Gagal menghubungi server.', 'bot');
       }
     }
-
+  
     sendBtn.addEventListener('click', sendMessage);
+  
     userInput.addEventListener('keypress', function (e) {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault(); // cegah line break
@@ -231,6 +245,7 @@
       }
     });
   </script>
+  
 
 </body>
 </html>
