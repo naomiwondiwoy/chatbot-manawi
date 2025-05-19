@@ -3,8 +3,31 @@ header('Content-Type: application/json; charset=utf-8');
 require_once 'aiml_parser.php';
 require_once 'db.php';
 
+<<<<<<< HEAD
 $apiToken = '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'; // token Groq-mu
 $model = 'meta-llama/llama-4-scout-17b-16e-instruct';
+=======
+$apiToken = getenv('API_TOKEN');
+$model = getenv('MODEL_NAME');
+
+function getMessagesFromDB($conn) {
+    $messages = [];
+
+    $sql = "SELECT role, content FROM ai_training_messages ORDER BY id ASC";
+    $result = $conn->query($sql);
+
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $messages[] = [
+                'role' => $row['role'],
+                'content' => $row['content']
+            ];
+        }
+    }
+
+    return $messages;
+}
+>>>>>>> 35c12b6309e567e9037e391a341d6e0afab22c7c
 
 $message = isset($_POST['message']) ? $_POST['message'] : '';
 $message = trim($message);
@@ -20,40 +43,17 @@ $response = parseAIML($message);
 if ($response === null) {
     // Kalau AIML tidak ketemu, panggil Groq API
 
+    $messages = getMessagesFromDB($conn);
+    $messages[] = [
+        'role' => 'user',
+        'content' => $message
+    ];
+
     $payload = [
         'model' => $model,
-        'messages' => [
-            [
-                'role' => 'system',
-                'content' => 'Kamu adalah ChatBot AI Belajar Bahasa Menawi yang ramah dan singkat. Fokus membantu belajar Bahasa Menawi (Papua). Jangan memberikan jawaban panjang dan terlalu meluas.'
-            ],
-            [
-                'role' => 'system',
-                'content' => 'Kamu selalu senang membantu orang belajar Bahasa Menawi. Jika ada yang bertanya tentang hal lain, jawab dengan singkat dan langsung ke intinya.'
-            ],
-            [
-                'role' => 'system',
-                'content' => 'Kamu selalu mengajak pengguna untuk bertanya lebih banyak lagi untuk belajar bahasa Menawi (Papua).'
-            ],
-            [
-                'role' => 'system',
-                'content' => 'anda selalu memberikan jawaban yang berbeda dari jawaban sebelumnya, jika ada yang bertanya sama dan jawabanya diambil dari database AIML'
-            ],
-            [
-                'role' => 'system',
-                'content' => 'jika adan ditanya untuk membuat daftar kata, maka kata-kata tersebut diambil dari database AIML'
-            ],
-            [
-                'role' => 'system',
-                'content' => 'kamu akan mengatakan tidak tau jika ada yang bertanya diluar konteks bahasa Menawi (Papua)'
-            ],
-            [
-                'role' => 'user',
-                'content' => $message
-            ]
-        ],
-        'temperature' => 0.3,     // buat respons lebih terkontrol dan singkat
-        'max_tokens' => 150,      // batasi panjang respons
+        'messages' => $messages,
+        'temperature' => 0.3,
+        'max_tokens' => 150
     ];
 
     $ch = curl_init('https://api.groq.com/openai/v1/chat/completions');

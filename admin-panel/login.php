@@ -20,6 +20,7 @@ if (!isset($data['username']) || !isset($data['password'])) {
 $username = $data['username'];
 $password = $data['password'];
 
+<<<<<<< HEAD
 // Koneksi ke database
 $host = "localhost";
 $dbname = "menawi_chatbot_db"; // Ganti dengan nama database Anda
@@ -33,6 +34,9 @@ if ($conn->connect_error) {
     echo json_encode(['success' => false, 'message' => 'Koneksi gagal']);
     exit;
 }
+=======
+require_once '../db.php'; // Koneksi ke database
+>>>>>>> 35c12b6309e567e9037e391a341d6e0afab22c7c
 
 // Query cari user
 $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
@@ -52,10 +56,6 @@ if ($stmt->num_rows === 1) {
 } else {
     echo json_encode(['success' => false, 'message' => 'Username tidak ditemukan']);
 }
-
-
-
-
 
 $stmt->close();
 $conn->close();

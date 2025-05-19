@@ -1,6 +1,8 @@
 <?php
 header('Content-Type: application/json');
+require_once '../db.php'; // Koneksi ke database
 
+<<<<<<< HEAD
 // Koneksi ke database
 $host = "localhost";
 $dbname = "menawi_chatbot_db"; // Ganti dengan nama database Anda
@@ -14,6 +16,8 @@ $conn = new mysqli($host, $dbuser, $dbpass, $dbname);
 if ($conn->connect_error) {
     die(json_encode(['error' => 'Koneksi gagal: ' . $conn->connect_error]));
 }
+=======
+>>>>>>> 35c12b6309e567e9037e391a341d6e0afab22c7c
 
 // Query untuk mengambil data pesan
 $sql = "SELECT user_message, bot_response, created_at FROM chat_history ORDER BY created_at DESC";
