@@ -2,9 +2,8 @@
 header('Content-Type: application/json');
 require_once '../db.php'; // Koneksi ke database
 
-
 // Query untuk mengambil data pesan
-$sql = "SELECT user_message, bot_response, created_at FROM chat_history ORDER BY created_at DESC";
+$sql = "SELECT id, indonesia, menawi, audio_menawi FROM dictionary ORDER BY indonesia ASC";
 $result = $conn->query($sql);
 
 $data = [];

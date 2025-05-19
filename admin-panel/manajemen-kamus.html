@@ -11,10 +11,9 @@
       background-color: #0b3b42;
       color: white;
       font-family: 'Segoe UI', sans-serif;
-      padding: 40px 20px 80px; /* beri padding bawah untuk ruang navbar */
+      padding: 40px 20px 80px;
       margin: 0;
     }
-
     .header {
       background-color: #0b3b42;
       padding: 10px 15px;
@@ -22,87 +21,26 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid #e6bc74;
-      position: relative;
-      z-index: 100;
     }
-
-    .left-header {
+    .left-header, .right-header {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
-    .left-header img {
-      width: 40px;
-    }
-
-    .left-header .title {
-      font-size: 18px;
-      font-weight: 600;
-      margin: 0;
-      color: #e6bc74;
-    }
-
-    .right-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .right-header span#usernameDisplay {
-      color: #e6bc74;
-      white-space: nowrap;
-    }
-
+    .left-header img { width: 40px; }
+    .left-header .title { font-size: 18px; font-weight: 600; color: #e6bc74; }
+    .right-header span#usernameDisplay { color: #e6bc74; }
     .right-header a.logout-link {
       color: #e6bc74;
       text-decoration: none;
-      background-color: #5a2e1e;
       padding: 6px 12px;
       border-radius: 8px;
       transition: background-color 0.3s;
     }
-
     .right-header a.logout-link:hover {
       background-color: #4b2416;
       color: white;
     }
-
-    /* Container kanan atas untuk username + logout */
-    .top-right {
-      position: fixed;
-      top: 10px;
-      right: 15px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 600;
-      font-size: 14px;
-      z-index: 1100;
-    }
-
-    .top-right span#usernameDisplay {
-      color: #e6bc74;
-      white-space: nowrap;
-    }
-
-    .top-right a.logout-link {
-      color: #e6bc74;
-      text-decoration: none;
-      background-color: #5a2e1e;
-      padding: 6px 12px;
-      border-radius: 8px;
-      transition: background-color 0.3s;
-    }
-
-    .top-right a.logout-link:hover {
-      background-color: #4b2416;
-      color: white;
-    }
-
-    /* Navbar bottom */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -115,7 +53,6 @@
       padding: 10px 0;
       z-index: 1000;
     }
-
     .bottom-nav a {
       color: #e6bc74;
       text-decoration: none;
@@ -125,73 +62,310 @@
       align-items: center;
       font-weight: 600;
     }
-
-    .bottom-nav a:hover {
-      color: #fff;
-    }
-
-    /* Optional: icon styling */
+    .bottom-nav a:hover { color: #fff; }
     .bottom-nav a svg {
       width: 24px;
       height: 24px;
       margin-bottom: 4px;
       fill: #e6bc74;
     }
-    .bottom-nav a:hover svg {
-      fill: #fff;
-    }
+    .bottom-nav a:hover svg { fill: #fff; }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <!-- Kiri (logo + judul) -->
     <div class="left-header">
       <img src="../assets/img/logo.png" alt="Logo" />
       <h5 class="title">Admin Panel</h5>
     </div>
-
-    <!-- Kanan (username + logout) -->
     <div class="right-header">
       <span id="usernameDisplay"></span>
-      <a href="#" class="logout-link" onclick="logout()">Logout</a>
+      <a href="#" class="logout-link" onclick="logout()">
+        <i class="bi bi-box-arrow-right"></i> Logout
+      </a>
     </div>
   </div>
 
-  <!-- Konten utama -->
-  <p>Ini adalah halaman dasbor admin.</p>
+  <div class="container-fluid mt-4">
+    <h4 class="mb-3" style="color: #e6bc74;">Manajemen Kamus</h4>
 
-  <!-- Bottom navigation -->
-  <nav class="bottom-nav">
-    <a href="catatan-pesan.html" aria-label="Catatan Pesan">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <path d="M2 2h12v10H5.414L2 15.414V2z" />
-      </svg>
-      Catatan Pesan
-    </a>
-    <a href="manajemen-kamus.html" aria-label="Manajemen Kamus">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <path d="M1 2.828c.885-.37 2.154-.828 4-.828 2.5 0 3 1 5 1 1.5 0 2-.5 2-.5v11.5s-1.5.5-3 .5c-2 0-3-1-5-1-1.5 0-3 .5-3 .5V2.828z"/>
-      </svg>
-      Manajemen Kamus
-    </a>
-  </nav>
+    <button type="button" class="btn p-0 mb-3 text-danger" data-bs-toggle="modal" data-bs-target="#addDictionaryModal" style="color:#e6bc74">
+      Tambah Data Kamus
+    </button>
+
+    <!-- Modal tambah data -->
+    <div class="modal fade" id="addDictionaryModal" tabindex="-1" aria-labelledby="addDictionaryModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        
+        <form id="addDictionaryForm" enctype="multipart/form-data">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-dark" id="addDictionaryModalLabel">Tambah Data Kamus</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="indonesia" class="form-label text-dark">Kata Bahasa Indonesia</label>
+                <input type="text" class="form-control" id="indonesia" name="indonesia" required>
+              </div>
+              <div class="mb-3">
+                <label for="menawi" class="form-label text-dark">Kata Bahasa Menawi</label>
+                <input type="text" class="form-control" id="menawi" name="menawi" required>
+              </div>
+              <div class="mb-3">
+                <label for="audio_menawi" class="form-label text-dark">Audio Menawi (File MP3)</label>
+                <input type="file" class="form-control" id="audio_menawi" name="audio_menawi" accept="audio/mpeg">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+              <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel">
+      <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Apakah Anda yakin ingin menghapus data ini?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="button" class="btn btn-danger" onclick="performDelete()">Hapus</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="table-responsive">
+      <table class="table table-dark table-bordered">
+        <thead class="table-warning text-dark">
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Bahasa Indonesia</th>
+            <th scope="col">Bahasa Menawi</th>
+            <th scope="col">Audio Bahasa Menawi</th>
+            <th scope="col">Opsi</th>
+          </tr>
+        </thead>
+        <tbody id="chatLogBody"></tbody>
+      </table>
+    </div>
+    <nav>
+      <ul class="pagination justify-content-center" id="pagination"></ul>
+    </nav>
+  </div>
+
+  <!-- Include Navigation -->
+  <div id="bottom-nav-placeholder"></div>
+  <script src="js/app.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 
   <script>
-    // Cek apakah user sudah login
-    const username = localStorage.getItem('username');
-    if (!username) {
-      alert("Anda harus login terlebih dahulu.");
-      window.location.href = "login.html";
-    } else {
-      document.getElementById('usernameDisplay').textContent = username;
+    // Contoh handler form submit, nanti sesuaikan dengan API/endpoint backend
+    document.getElementById('addDictionaryForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(this);
+
+      try {
+        const response = await fetch('manajemen-kamus-tambah.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) throw new Error('Gagal menyimpan data');
+
+        alert('Data berhasil ditambahkan');
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addDictionaryModal'));
+        modal.hide();
+        this.reset();
+        fetchChatLogs();
+
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    const rowsPerPage = 5;
+    let currentPage = 1;
+    let chatLogs = [];
+
+    // Fetch data dari manajemen-kamus.php
+    async function fetchChatLogs() {
+      try {
+        const response = await fetch('manajemen-kamus.php');
+        if (!response.ok) throw new Error('Gagal mengambil data');
+        const data = await response.json();
+        chatLogs = data;
+        displayTable(currentPage);
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Gagal memuat data chat.');
+      }
     }
 
-    // Logout function
-    function logout() {
-      localStorage.removeItem('username');
-      window.location.href = "login.html";
+    function displayTable(page) {
+      const tbody = document.getElementById('chatLogBody');
+      tbody.innerHTML = '';
+
+      const start = (page - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const paginatedData = chatLogs.slice(start, end);
+
+      paginatedData.forEach((log, index) => {
+        // Nomor urut global (bukan index di halaman)
+        const nomorUrut = start + index + 1;
+
+        const row = `
+            <tr>
+              <td class="text-light">${nomorUrut}</td>
+              <td class="text-light">${escapeHtml(log.indonesia)}</td>
+              <td class="text-light">${escapeHtml(log.menawi)}</td>
+              <td class="text-light">
+                <audio controls controlsList="nodownload">
+                  <source src="../${escapeHtml(log.audio_menawi)}" type="audio/mpeg">
+                  Browser Anda tidak mendukung elemen audio.
+                </audio>
+              </td>
+              <td class="text-light text-center">
+                <button class="btn text-danger" onclick="confirmDelete(${log.id})" title="Hapus">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        tbody.insertAdjacentHTML('beforeend', row);
+      });
+
+      displayPagination();
     }
+
+    function displayPagination() {
+      const totalPages = Math.ceil(chatLogs.length / rowsPerPage);
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = '';
+
+      for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement('li');
+        li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener('click', (e) => {
+          e.preventDefault();
+          currentPage = i;
+          displayTable(currentPage);
+        });
+        pagination.appendChild(li);
+      }
+    }
+
+
+
+
+    let deleteId = null;
+
+    function confirmDelete(id) {
+      deleteId = id;
+      const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+      modal.show();
+    }
+
+    function performDelete() {
+      if (!deleteId) return;
+
+      fetch('manajemen-kamus-hapus.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: deleteId })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert(data.message);
+            deleteId = null;
+            displayTable(currentPage); // Refresh table
+            const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+            modal.hide();
+          } else {
+            alert('Gagal menghapus: ' + data.error);
+          }
+        })
+        .catch(err => alert('Error: ' + err.message));
+    }
+
+
+
+    function logout() {
+      alert('Logout berhasil!');
+      // Implementasi logout sebenarnya bisa ditambah di sini
+    }
+
+    function deleteRow(index) {
+      if (!confirm('Apakah Anda yakin ingin menghapus catatan ini?')) return;
+
+      // Hapus dari array lokal
+      chatLogs.splice(index, 1);
+      // Jika ingin hapus permanen, harus dilakukan request ke server (belum tersedia)
+
+      // Jika halaman kosong setelah hapus, mundur ke halaman sebelumnya
+      const totalPages = Math.ceil(chatLogs.length / rowsPerPage);
+      if (currentPage > totalPages && currentPage > 1) currentPage--;
+
+      displayTable(currentPage);
+    }
+
+    // Fungsi untuk menghindari XSS
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('usernameDisplay').textContent = 'Admin';
+      fetchChatLogs();
+
+      // Realtime update setiap 10 detik
+      setInterval(() => {
+        fetchChatLogs();
+      }, 10000);
+    });
+
+
   </script>
 </body>
 </html>

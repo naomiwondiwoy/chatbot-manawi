@@ -3,10 +3,6 @@ header('Content-Type: application/json; charset=utf-8');
 require_once 'aiml_parser.php';
 require_once 'db.php';
 
-<<<<<<< HEAD
-$apiToken = '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'; // token Groq-mu
-$model = 'meta-llama/llama-4-scout-17b-16e-instruct';
-=======
 $apiToken = getenv('API_TOKEN');
 $model = getenv('MODEL_NAME');
 
@@ -27,7 +23,6 @@ function getMessagesFromDB($conn) {
 
     return $messages;
 }
->>>>>>> 35c12b6309e567e9037e391a341d6e0afab22c7c
 
 $message = isset($_POST['message']) ? $_POST['message'] : '';
 $message = trim($message);
