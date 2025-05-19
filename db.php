@@ -1,9 +1,11 @@
 <?php
-// db.php - file koneksi database
-$host = 'localhost';
-$user = 'root';
-$pass = 'root';
-$dbname = 'menawi_chatbot_db';
+require_once 'env.php';
+loadEnv(__DIR__ . '/.env');
+
+$host = getenv('DB_HOST');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASS');
+$dbname = getenv('DB_NAME');
 
 $conn = new mysqli($host, $user, $pass, $dbname);
 
