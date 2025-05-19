@@ -166,10 +166,38 @@
 
   <!-- Konten utama -->
   <p>Ini adalah halaman dasbor admin.</p>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6">
+        Jumlah Percakapan: <span id="jumlahPercakapan">0</span>
+      </div>
+      <div class="col-lg-6">
+        Jumlah Kosakata di Kamus: <span id="jumlahKosakata">0</span>
+      </div>
+    </div>
+  </div>
 
   <!-- Include Navigation -->
   <div id="bottom-nav-placeholder"></div>
   <script src="js/app.js"></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch('dasbor-data-counter.php') // Pastikan path-nya sesuai
+      .then(response => response.json())
+      .then(data => {
+        if (!data.error) {
+          document.getElementById('jumlahPercakapan').textContent = data.jumlahPercakapan;
+          document.getElementById('jumlahKosakata').textContent = data.jumlahKosakata;
+        } else {
+          console.error('Error:', data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Gagal mengambil data:', error);
+      });
+  });
+  </script>
   
 </body>
 </html>

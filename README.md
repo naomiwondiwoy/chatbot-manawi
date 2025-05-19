@@ -30,3 +30,7 @@ perintah untuk mengambil perubahan dari git remote di internet
 ```
 git pull
 ```
+
+# buat database
+
+# buat tabel
