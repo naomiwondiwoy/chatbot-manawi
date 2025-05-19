@@ -20,7 +20,7 @@ if (!isset($data['username']) || !isset($data['password'])) {
 $username = $data['username'];
 $password = $data['password'];
 
-require_once 'db.php'; // Koneksi ke database
+require_once '../db.php'; // Koneksi ke database
 
 // Query cari user
 $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
