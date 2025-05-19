@@ -3,7 +3,7 @@ header('Content-Type: application/json; charset=utf-8');
 require_once 'aiml_parser.php';
 require_once 'db.php';
 
-$apiToken = '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'; // token Groq-mu
+$apiToken = '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'; // token Groq-mu
 $model = 'meta-llama/llama-4-scout-17b-16e-instruct';
 
 $message = isset($_POST['message']) ? $_POST['message'] : '';

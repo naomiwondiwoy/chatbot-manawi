@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 $host = "localhost";
 $dbname = "menawi_chatbot_db"; // Ganti dengan nama database Anda
 $dbuser = "root"; // Ganti jika perlu
-$dbpass = "root"; // Ganti jika perlu
+$dbpass = ""; // Ganti jika perlu
 
 // Buat koneksi
 $conn = new mysqli($host, $dbuser, $dbpass, $dbname);
