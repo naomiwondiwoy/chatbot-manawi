@@ -1,0 +1,88 @@
+body {
+    background-color: #0b3b42;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 40px 20px 80px;
+    margin: 0;
+}
+
+.header {
+    background-color: #0b3b42;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e6bc74;
+}
+
+.left-header,
+.right-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.left-header img {
+    width: 40px;
+}
+
+.left-header .title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #e6bc74;
+}
+
+.right-header span#usernameDisplay {
+    color: #e6bc74;
+}
+
+.right-header a.logout-link {
+    color: #e6bc74;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.right-header a.logout-link:hover {
+    background-color: #4b2416;
+    color: white;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #0b3b42;
+    border-top: 1px solid #3a6a74;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    color: #e6bc74;
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 600;
+}
+
+.bottom-nav a:hover {
+    color: #fff;
+}
+
+.bottom-nav a svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    fill: #e6bc74;
+}
+
+.bottom-nav a:hover svg {
+    fill: #fff;
+}

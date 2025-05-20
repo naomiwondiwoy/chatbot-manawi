@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once '../db.php'; // Koneksi ke database
+require_once '../../db.php'; // Koneksi ke database
 
 $input = json_decode(file_get_contents('php://input'), true);
 
@@ -32,7 +32,7 @@ $stmt->bind_param("i", $id);
 if ($stmt->execute()) {
     // Hapus file audio jika ada
     if (!empty($audioFile)) {
-        $filePath = "../" . $audioFile; // Pastikan path sesuai
+        $filePath = "../../" . $audioFile; // Pastikan path sesuai
         if (file_exists($filePath)) {
             unlink($filePath); // Hapus file
         }

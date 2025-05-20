@@ -18,9 +18,8 @@ function parseAIML($input, $folder = 'aiml')
             $pattern = trim((string)$category->pattern);
 
             if ($pattern === $input) {
-                // Ketemu pattern cocok
-                $template = (string)$category->template;
-                return $template;
+                $template = trim((string)$category->template);
+                return $template !== '' ? $template : null;
             }
         }
     }

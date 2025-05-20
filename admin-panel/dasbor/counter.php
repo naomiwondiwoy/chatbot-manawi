@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once '../db.php'; // Pastikan $conn adalah objek mysqli
+require_once '../../db.php'; // Pastikan $conn adalah objek mysqli
 
 $response = [];
 

@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once '../db.php'; // Sesuaikan path jika perlu
+require_once '../../db.php'; // Sesuaikan path jika perlu
 
 try {
     $sql = "DELETE FROM chat_history";

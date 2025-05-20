@@ -1,9 +1,9 @@
 <?php
 header('Content-Type: application/json');
-require_once '../db.php'; // sesuaikan path koneksi DB
+require_once '../../db.php'; // sesuaikan path koneksi DB
 
 // Pastikan folder "audio" ada dan bisa ditulis
-$uploadDir = '../audio/'; // folder penyimpanan relatif dari lokasi script ini
+$uploadDir = '../../audio/'; // folder penyimpanan relatif dari lokasi script ini
 
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);

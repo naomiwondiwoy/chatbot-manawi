@@ -1,9 +1,9 @@
 <?php
 header('Content-Type: application/json');
-require_once '../db.php'; // Koneksi ke database
+require_once '../../db.php'; // Koneksi ke database
 
 // Query untuk mengambil data pesan
-$sql = "SELECT id, indonesia, menawi, audio_menawi FROM dictionary ORDER BY indonesia ASC";
+$sql = "SELECT * FROM ai_training_messages ORDER BY id DESC";
 $result = $conn->query($sql);
 
 $data = [];

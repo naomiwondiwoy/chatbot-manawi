@@ -40,10 +40,9 @@ if ($response === null) {
     // Fallback: Panggil Groq API
     $messages = getMessagesFromDB($conn);
 
-    // Sistem prompt yang lebih longgar
     $systemMessage = [
         'role' => 'system',
-        'content' => 'Jawablah dengan data yang sudah ada, tapi jika tidak cukup, kamu boleh memberikan jawaban berdasarkan pengetahuan umum.'
+        'content' => 'Jawablah hanya berdasarkan data training yang sudah diberikan dari database. Jangan jawab di luar konteks tersebut.'
     ];
     array_unshift($messages, $systemMessage);
 
@@ -55,7 +54,7 @@ if ($response === null) {
     $payload = [
         'model' => $model,
         'messages' => $messages,
-        'temperature' => 0.7, // Lebih fleksibel
+        'temperature' => 0.3,
         'max_tokens' => 150
     ];
 
@@ -86,7 +85,25 @@ if ($response === null) {
     }
 
     if (!empty($responseData['choices'][0]['message']['content'])) {
-        $response = trim($responseData['choices'][0]['message']['content']);
+        $tempResponse = trim($responseData['choices'][0]['message']['content']);
+
+        // Validasi: pastikan isi jawaban ada dalam data training
+        $trainingData = getMessagesFromDB($conn);
+        $found = false;
+
+        foreach ($trainingData as $msg) {
+            if (stripos($tempResponse, $msg['content']) !== false) {
+                $found = true;
+                break;
+            }
+        }
+
+        if ($found) {
+            $response = $tempResponse;
+        } else {
+            $response = "Maaf, saya belum memiliki data yang cukup untuk menjawabnya.";
+        }
+
     } else {
         $response = "Maaf, saya belum bisa merespons saat ini.";
     }

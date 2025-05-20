@@ -7,6 +7,7 @@ if (!username) {
     document.getElementById('usernameDisplay').textContent = username;
 }
 
+
 // Logout function
 function logout() {
     localStorage.removeItem('username');
@@ -14,8 +15,11 @@ function logout() {
 }
 
 // Load the bottom nav HTML
-fetch('nav.html')
+fetch('partials/nav.html')
     .then(response => response.text())
     .then(data => {
     document.getElementById('bottom-nav-placeholder').innerHTML = data;
     });
+
+
+
