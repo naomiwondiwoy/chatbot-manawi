@@ -34,3 +34,9 @@ git pull
 # buat database
 
 # buat tabel
+
+## DB Online
+
+sakodeko_menawichatbot
+sakodeko_menawichatbot
+sakodeko_menawichatbot

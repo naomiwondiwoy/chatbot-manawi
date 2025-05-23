@@ -16,6 +16,11 @@
   </category>
 
   <category>
+    <pattern>MAMA</pattern>
+    <template>Dalam Bahasa Menawi, "mama" atau "ibu" adalah "Ai".</template>
+  </category>
+
+  <category>
     <pattern>SAUDARA LAKI-LAKI</pattern>
     <template>Dalam Bahasa Menawi, "saudara laki-laki" adalah "Bariboai".</template>
   </category>

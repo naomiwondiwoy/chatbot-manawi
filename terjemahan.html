@@ -36,11 +36,6 @@
       padding: 20px;
     }
 
-    .language-label {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
     .translate-output {
       background-color: #14484e;
       border-radius: 8px;
@@ -92,20 +87,53 @@
       <span>Menawi</span>
     </div>
 
-    <div class="translate-output">
-      <em>Dai</em>
+    <div class="translate-output" id="output">
+      <em>Hasil akan ditampilkan di sini...</em>
     </div>
 
-    <div class="audio-bar d-flex align-items-center">
-      <i class="bi bi-volume-up me-2"></i>
-      <div class="flex-grow-1 bg-secondary rounded" style="height: 5px;">
-        <div class="bg-light" style="width: 60%; height: 100%;"></div>
-      </div>
-    </div>
+  
 
-    <textarea class="form-control" rows="3" placeholder="Ayah"></textarea>
-    <button class="btn btn-translate">Terjemahkan</button>
+    <textarea class="form-control" id="input" rows="3" placeholder="Ketik kalimat dalam Bahasa Indonesia..."></textarea>
+    <button class="btn btn-translate" id="translateBtn">Terjemahkan</button>
   </div>
+
+  <!-- Audio tanpa controls dan tersembunyi -->
+  <audio id="audioPlayer" style="display: none;"></audio>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const translateBtn = document.getElementById("translateBtn");
+      const input = document.getElementById("input");
+      const output = document.getElementById("output");
+      const audioPlayer = document.getElementById("audioPlayer");
+      const audioBar = document.getElementById("audioBar");
+
+      translateBtn.addEventListener("click", function () {
+        const keyword = input.value.trim();
+        if (!keyword) return;
+
+        fetch("terjemahan.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "keyword=" + encodeURIComponent(keyword)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "found") {
+            output.innerHTML = `<em>${data.menawi}</em>`;
+            if (data.audio) {
+              audioPlayer.src = data.audio;
+              audioPlayer.play();
+              audioBar.style.display = "flex";
+            }
+          } else {
+            output.innerHTML = "<em>Terjemahan tidak ditemukan.</em>";
+            audioBar.style.display = "none";
+          }
+        });
+      });
+    });
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

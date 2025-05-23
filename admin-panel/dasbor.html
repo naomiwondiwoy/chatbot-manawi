@@ -40,21 +40,21 @@
   <script src="assets/js/app.js"></script>
 
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    fetch('dasbor/counter.php') // Pastikan path-nya sesuai
-      .then(response => response.json())
-      .then(data => {
-        if (!data.error) {
-          document.getElementById('jumlahPercakapan').textContent = data.jumlahPercakapan;
-          document.getElementById('jumlahKosakata').textContent = data.jumlahKosakata;
-        } else {
-          console.error('Error:', data.message);
-        }
-      })
-      .catch(error => {
-        console.error('Gagal mengambil data:', error);
-      });
-  });
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch('dasbor/counter.php') // Pastikan path-nya sesuai
+        .then(response => response.json())
+        .then(data => {
+          if (!data.error) {
+            document.getElementById('jumlahPercakapan').textContent = data.jumlahPercakapan;
+            document.getElementById('jumlahKosakata').textContent = data.jumlahKosakata;
+          } else {
+            console.error('Error:', data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Gagal mengambil data:', error);
+        });
+    });
   </script>
 
   <script src="assets/js/xss.js"></script>
