@@ -100,3 +100,5 @@ $stmt->close();
 
 // Kirim balasan ke frontend
 echo json_encode(['reply' => $response]);
+
+

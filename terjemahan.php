@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 
 
 // Ambil input dari client
-$keyword = $_POST['keyword'] ?? '';
+$keyword = isset($_POST['keyword']) ? $_POST['keyword'] : '';
 
 $response = ['status' => 'not_found'];
 
@@ -43,3 +43,7 @@ if (!empty($keyword)) {
 
 header('Content-Type: application/json');
 echo json_encode($response);
+file_put_contents('log.json', json_encode([
+    'keyword' => $keyword,
+    'response' => $response
+]));
