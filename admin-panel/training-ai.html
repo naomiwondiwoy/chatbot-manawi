@@ -10,16 +10,46 @@
 </head>
 <body>
 
-  <div class="header">
-    <div class="left-header">
-      <img src="../assets/img/logo.png" alt="Logo" />
-      <h5 class="title">Admin Panel</h5>
-    </div>
-    <div class="right-header">
-      <span id="usernameDisplay"></span>
-      <a href="#" class="logout-link" onclick="logout()">
-        <i class="bi bi-box-arrow-right"></i> Logout
+  <div class="header navbar navbar-expand-lg p-3 shadow-sm">
+    <div class="container-fluid">
+      <!-- Kiri: Logo dan Judul -->
+      <a class="navbar-brand d-flex align-items-center" href="dasbor.html">
+        <img src="../assets/img/logo.png" alt="Logo" style="height: 40px; margin-right: 10px;" />
+        <h5 class="mb-0" style="color: #e6bc74;">Admin Panel</h5>
       </a>
+
+      <!-- Tombol Hamburger -->
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+        aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style="filter: invert(66%) sepia(49%) saturate(474%) hue-rotate(2deg) brightness(92%) contrast(93%);"></span>
+      </button>
+
+      <!-- Navigasi & Logout -->
+      <div class="collapse navbar-collapse justify-content-between" id="navbarMenu">
+        <!-- Navigasi Tengah -->
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" style="color: #e6bc74;" href="dasbor.html">Dasbor</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="color: #e6bc74;" href="catatan-pesan.html">Catatan Pesan</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="color: #e6bc74;" href="manajemen-kamus.html">Manajemen Kamus</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="color: #e6bc74;" href="training-ai.html">Training AI</a>
+          </li>
+        </ul>
+
+        <!-- Kanan: Username dan Logout -->
+        <div class="d-flex align-items-center">
+          <span id="usernameDisplay" class="me-3" style="color: #e6bc74;"></span>
+          <a href="#" class="text-decoration-none" style="color: #e6bc74;" onclick="logout()">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -96,8 +126,6 @@
       <ul class="pagination justify-content-center" id="pagination"></ul>
     </nav>
 
-  <!-- Include Navigation -->
-  <div id="bottom-nav-placeholder"></div>
   <script src="assets/js/app.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>

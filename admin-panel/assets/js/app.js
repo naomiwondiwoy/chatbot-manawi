@@ -19,7 +19,14 @@ fetch('partials/nav.html')
     .then(response => response.text())
     .then(data => {
     document.getElementById('bottom-nav-placeholder').innerHTML = data;
-    });
+});
+
+// Load the header html
+fetch('partials/header.html')
+    .then(response => response.text())
+    .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+});
 
 
 
