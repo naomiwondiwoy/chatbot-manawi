@@ -65,6 +65,7 @@
       <div class="modal-dialog">
         
         <form id="addDictionaryForm" enctype="multipart/form-data">
+          <input type="hidden" id="kamusId" name="id">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title text-dark" id="addDictionaryModalLabel">Tambah Data Kamus</h5>
@@ -86,7 +87,8 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-              <button type="submit" class="btn btn-primary">Simpan</button>
+              <!-- <button type="submit" class="btn btn-primary">Simpan</button> -->
+              <button type="submit" class="btn btn-primary" id="submitBtn">Simpan</button>
             </div>
           </div>
         </form>
@@ -142,26 +144,25 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 
   <script>
-    // Contoh handler form submit, nanti sesuaikan dengan API/endpoint backend
-    document.getElementById('addDictionaryForm').addEventListener('submit', async function(event) {
+    document.getElementById('addDictionaryForm').addEventListener('submit', async function (event) {
       event.preventDefault();
-
       const formData = new FormData(this);
+      const id = formData.get('id');
+      const endpoint = id ? 'manajemen-kamus/tambah.php' : 'manajemen-kamus/tambah.php';
 
       try {
-        const response = await fetch('manajemen-kamus/tambah.php', {
+        const response = await fetch(endpoint, {
           method: 'POST',
           body: formData
         });
 
         if (!response.ok) throw new Error('Gagal menyimpan data');
 
-        // alert('Data berhasil ditambahkan');
         const modal = bootstrap.Modal.getInstance(document.getElementById('addDictionaryModal'));
         modal.hide();
         this.reset();
+        document.getElementById('kamusId').value = ''; // reset id
         fetchChatLogs();
-
       } catch (error) {
         alert(error.message);
       }
@@ -221,6 +222,9 @@
                 </audio>
               </td>
              <td>
+              <button class="btn text-success" onclick="showEdit(${log.id})">
+                <i class="bi bi-pencil"></i>
+              </button>
               <button class="btn text-danger" onclick="showDelete(${log.id})">
                 <i class="bi bi-trash"></i>
               </button>
@@ -231,6 +235,24 @@
       });
 
       displayPagination();
+    }
+
+
+
+
+    async function showEdit(id) {
+      const data = chatLogs.find(item => item.id == id);
+      if (!data) return;
+
+      document.getElementById('addDictionaryModalLabel').innerText = 'Edit Data Kamus';
+      document.getElementById('submitBtn').innerText = 'Update';
+
+      document.getElementById('kamusId').value = data.id;
+      document.getElementById('indonesia').value = data.indonesia;
+      document.getElementById('menawi').value = data.menawi;
+      document.getElementById('audio_menawi').value = ''; // Tidak dapat preload file audio, perlu upload ulang jika ingin update
+
+      new bootstrap.Modal(document.getElementById('addDictionaryModal')).show();
     }
 
     
@@ -290,6 +312,16 @@
       displayTable(currentPage);
     }
 
+  </script>
+
+  <script>
+    const modalElement = document.getElementById('addDictionaryModal');
+    modalElement.addEventListener('hidden.bs.modal', function () {
+      document.getElementById('addDictionaryModalLabel').innerText = 'Tambah Data Kamus';
+      document.getElementById('submitBtn').innerText = 'Simpan';
+      document.getElementById('addDictionaryForm').reset();
+      document.getElementById('kamusId').value = '';
+    });
   </script>
 
   <script src="assets/js/xss.js"></script>

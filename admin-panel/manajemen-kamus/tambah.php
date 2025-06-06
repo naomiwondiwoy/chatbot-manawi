@@ -2,14 +2,11 @@
 header('Content-Type: application/json');
 require_once '../../db.php'; // sesuaikan path koneksi DB
 
-// Pastikan folder "audio" ada dan bisa ditulis
-$uploadDir = '../../audio/'; // folder penyimpanan relatif dari lokasi script ini
-
+$uploadDir = '../../audio/';
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);
 }
 
-// Cek input teks
 if (
     !isset($_POST['indonesia']) || empty(trim($_POST['indonesia'])) ||
     !isset($_POST['menawi']) || empty(trim($_POST['menawi']))
@@ -21,8 +18,8 @@ if (
 
 $indonesia = $conn->real_escape_string(trim($_POST['indonesia']));
 $menawi = $conn->real_escape_string(trim($_POST['menawi']));
+$id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 
-// Handle upload file audio jika ada
 $audioPath = '';
 if (isset($_FILES['audio_menawi']) && $_FILES['audio_menawi']['error'] == UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['audio_menawi']['tmp_name'];
@@ -30,7 +27,6 @@ if (isset($_FILES['audio_menawi']) && $_FILES['audio_menawi']['error'] == UPLOAD
     $fileSize = $_FILES['audio_menawi']['size'];
     $fileType = $_FILES['audio_menawi']['type'];
 
-    // Bisa tambah validasi tipe file audio dan ukuran file di sini
     $allowedExtensions = ['mp3', 'wav', 'ogg', 'm4a'];
     $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
@@ -40,13 +36,10 @@ if (isset($_FILES['audio_menawi']) && $_FILES['audio_menawi']['error'] == UPLOAD
         exit;
     }
 
-    // Buat nama file baru agar unik (misal timestamp + original name)
     $newFileName = time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '_', $fileName);
-
     $destPath = $uploadDir . $newFileName;
 
     if (move_uploaded_file($fileTmpPath, $destPath)) {
-        // Simpan path relatif ke DB, contoh: audio/namafile.mp3
         $audioPath = 'audio/' . $newFileName;
     } else {
         http_response_code(500);
@@ -55,14 +48,30 @@ if (isset($_FILES['audio_menawi']) && $_FILES['audio_menawi']['error'] == UPLOAD
     }
 }
 
-// Query insert data ke database
-$sql = "INSERT INTO dictionary (indonesia, menawi, audio_menawi) VALUES ('$indonesia', '$menawi', '$audioPath')";
+if ($id > 0) {
+    // Update data
+    if (!empty($audioPath)) {
+        $sql = "UPDATE dictionary SET indonesia='$indonesia', menawi='$menawi', audio_menawi='$audioPath' WHERE id=$id";
+    } else {
+        $sql = "UPDATE dictionary SET indonesia='$indonesia', menawi='$menawi' WHERE id=$id";
+    }
 
-if ($conn->query($sql) === TRUE) {
-    echo json_encode(['success' => true, 'message' => 'Data berhasil ditambahkan']);
+    if ($conn->query($sql) === TRUE) {
+        echo json_encode(['success' => true, 'message' => 'Data berhasil diperbarui']);
+    } else {
+        http_response_code(500);
+        echo json_encode(['error' => 'Gagal memperbarui data: ' . $conn->error]);
+    }
 } else {
-    http_response_code(500);
-    echo json_encode(['error' => 'Gagal menambahkan data: ' . $conn->error]);
+    // Insert data
+    $sql = "INSERT INTO dictionary (indonesia, menawi, audio_menawi) VALUES ('$indonesia', '$menawi', '$audioPath')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo json_encode(['success' => true, 'message' => 'Data berhasil ditambahkan']);
+    } else {
+        http_response_code(500);
+        echo json_encode(['error' => 'Gagal menambahkan data: ' . $conn->error]);
+    }
 }
 
 $conn->close();
