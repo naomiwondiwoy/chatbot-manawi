@@ -63,17 +63,130 @@
   <div class="container-fluid mt-3">
     <div class="row">
       <div class="col-lg-6">
-        Jumlah Percakapan: <span id="jumlahPercakapan">0</span>
+        <div class="card mb-4" style="background-color:#e6bc74">
+          <div class="card-body text-center">
+            Jumlah Percakapan di ChatBot <span class="d-block display-1 fw-bold" id="jumlahPercakapan">0</span>
+          </div>
+        </div>
+        
+        <div class="card mb-4" style="background-color:#e6bc74">
+          <div class="card-body text-center">
+            Jumlah Kosa Kata Pada Kamus <span class="d-block display-1 fw-bold" id="jumlahKosakata">0</span>
+          </div>
+        </div>
       </div>
       <div class="col-lg-6">
-        Jumlah Kosakata di Kamus: <span id="jumlahKosakata">0</span>
+        <div class="card" style="background-color:#e6bc74">
+          <div class="card-body">
+            <div id="piechart"></div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="card" style="background-color:#e6bc74">
+          <div class="card-body">
+            <div id="chart"></div>
+          </div>
+        </div>
       </div>
     </div>
+    
+  
+
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script src="assets/js/app.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <script>
+    fetch('/chatbot-aiml-groq/admin-panel/api/chart_data_respon_per_hari.php')
+      .then(response => response.json())
+      .then(data => {
+        const tanggal = data.map(item => item.tanggal);
+        const jumlah = data.map(item => item.jumlah);
+
+        const options = {
+          chart: {
+            type: 'line',
+            height: 350,
+            zoom: { enabled: false }
+          },
+          series: [{
+            name: 'Jumlah Respon',
+            data: jumlah
+          }],
+          xaxis: {
+            categories: tanggal,
+            title: {
+              text: 'Tanggal'
+            },
+            labels: {
+              rotate: -45
+            }
+          },
+          yaxis: {
+            title: {
+              text: 'Jumlah'
+            }
+          },
+          title: {
+            text: 'Jumlah Respon Bot per Hari',
+            align: 'center'
+          },
+          stroke: {
+            curve: 'smooth'
+          },
+          markers: {
+            size: 4
+          }
+        };
+
+        const chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+      })
+      .catch(error => {
+        console.error('Gagal mengambil data dari API:', error);
+      });
+  </script>
+
+
+  <script>
+      fetch('/chatbot-aiml-groq/admin-panel/api/chart_data_respon_per_chat.php') // Ganti path sesuai file php kamu
+        .then(response => response.json())
+        .then(data => {
+          const labels = data.map(item => item.label);
+          const values = data.map(item => item.jumlah);
+
+          const options = {
+            chart: {
+              type: 'pie',
+              height: 300 // Set tinggi chart di sini
+            },
+            series: values,
+            labels: labels,
+            title: {
+              text: 'Distribusi Pesan User',
+              align: 'center'
+            },
+            legend: {
+              position: 'bottom'
+            }
+          };
+
+          const chart = new ApexCharts(document.querySelector("#piechart"), options);
+          chart.render();
+        })
+        .catch(error => {
+          console.error("Gagal memuat data:", error);
+        });
+    </script>
   
   <script>
     document.addEventListener("DOMContentLoaded", function () {
