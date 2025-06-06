@@ -5,6 +5,7 @@ if (!username) {
     window.location.href = "login.html";
 } else {
     document.getElementById('usernameDisplay').textContent = username;
+    document.getElementById('namaLengkapDisplay').textContent = nama_lengkap;
 }
 
 
