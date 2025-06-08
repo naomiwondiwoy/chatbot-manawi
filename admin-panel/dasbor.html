@@ -106,7 +106,7 @@
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
   <script>
-    fetch('/chatbot-aiml-groq/admin-panel/api/chart_data_respon_per_hari.php')
+    fetch('api/chart_data_respon_per_hari.php')
       .then(response => response.json())
       .then(data => {
         const tanggal = data.map(item => item.tanggal);
@@ -158,7 +158,7 @@
 
 
   <script>
-      fetch('/chatbot-aiml-groq/admin-panel/api/chart_data_respon_per_chat.php') // Ganti path sesuai file php kamu
+      fetch('api/chart_data_respon_per_chat.php') // Ganti path sesuai file php kamu
         .then(response => response.json())
         .then(data => {
           const labels = data.map(item => item.label);
