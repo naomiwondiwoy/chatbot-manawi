@@ -1,5 +1,4 @@
 <?php
-// aiml_parser.php
 
 function parseAIML($input, $folder = 'aiml')
 {

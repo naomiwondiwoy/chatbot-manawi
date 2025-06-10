@@ -1,46 +1,38 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 require_once 'aiml_parser.php';
-require_once 'db.php';
+require_once 'db.php'; // pastikan db.php sudah pakai PDO
 
-// api.groq.com token and model name
 $apiToken = getenv('API_TOKEN');
 $model = getenv('MODEL_NAME');
 
 function getMessagesFromDB($conn) {
     $messages = [];
-
     $sql = "SELECT role, content FROM ai_training_messages ORDER BY id ASC";
-    $result = $conn->query($sql);
+    $stmt = $conn->query($sql);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($result && $result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $messages[] = [
-                'role' => $row['role'],
-                'content' => $row['content']
-            ];
-        }
+    foreach ($rows as $row) {
+        $messages[] = [
+            'role' => $row['role'],
+            'content' => $row['content']
+        ];
     }
-
     return $messages;
 }
 
-$message = isset($_POST['message']) ? $_POST['message'] : '';
-$message = trim($message);
+$message = isset($_POST['message']) ? trim($_POST['message']) : '';
 
 if (!$message) {
     echo json_encode(['error' => 'Silakan ketik pesan terlebih dahulu.']);
     exit;
 }
 
-// Cek dulu respons AIML
 $response = parseAIML($message);
 
 if ($response === null) {
-    // Fallback: Panggil Groq API
     $messages = getMessagesFromDB($conn);
 
-    // Sistem prompt yang lebih longgar
     $systemMessage = [
         'role' => 'system',
         'content' => 'Jawablah dengan data yang sudah ada, tapi jika tidak cukup, kamu boleh memberikan jawaban berdasarkan pengetahuan umum.'
@@ -55,7 +47,7 @@ if ($response === null) {
     $payload = [
         'model' => $model,
         'messages' => $messages,
-        'temperature' => 0.7, // Lebih fleksibel
+        'temperature' => 0.7,
         'max_tokens' => 150
     ];
 
@@ -92,13 +84,10 @@ if ($response === null) {
     }
 }
 
-// Simpan ke database
-$stmt = $conn->prepare("INSERT INTO chat_history (user_message, bot_response) VALUES (?, ?)");
-$stmt->bind_param('ss', $message, $response);
+// Simpan ke DB menggunakan PDO
+$stmt = $conn->prepare("INSERT INTO chat_history (user_message, bot_response) VALUES (:user_message, :bot_response)");
+$stmt->bindParam(':user_message', $message);
+$stmt->bindParam(':bot_response', $response);
 $stmt->execute();
-$stmt->close();
 
-// Kirim balasan ke frontend
 echo json_encode(['reply' => $response]);
-
-

@@ -76,80 +76,74 @@
   </category>
 
   <category>
-    <pattern>SAYA SUDAH MAKAN.</pattern
-    <template>Dalam Bahasa Menawi, "SAYA SUDAH MAKAN" adalah "Jampi ampah".</template
+    <pattern>SAYA SUDAH MAKAN.</pattern>
+    <template>Dalam Bahasa Menawi, "SAYA SUDAH MAKAN" adalah "Jampi ampah".</template>
   </category>
 
   <category>
-    <pattern>SAYA BELUM MAKAN</pattern
-    <template>Dalam Bahasa Menawi, "SAYA BELUM MAKAN" adalah "Jampi kaha nendai".</template
+    <pattern>SAYA BELUM MAKAN</pattern>
+    <template>Dalam Bahasa Menawi, "SAYA BELUM MAKAN" adalah "Jampi kaha nendai".</template>
   </category>
 
   <category>
-    <pattern>KAMU ORANG MANA?</pattern
-    <template>Dalam Bahasa Menawi, "KAMU ORANG MANA" adalah ""Muntora to doni.</template
+    <pattern>KAMU ORANG MANA?</pattern>
+    <template>Dalam Bahasa Menawi, "KAMU ORANG MANA" adalah "Muntora to doni".</template>
   </category>
 
   <category>
-    <pattern>SAYA BERASAL DARI...</pattern
-    <template>Dalam Bahasa Menawu, "SAYA BERASAL DARI" adalah "Jau introi netaine".</template
+    <pattern>SAYA BERASAL DARI...</pattern>
+    <template>Dalam Bahasa Menawu, "SAYA BERASAL DARI" adalah "Jau introi netaine".</template>
   </category>
 
   <category>
-    <pattern>SIAPA NAMA ANDA?</pattern
-    <template>Dalam Bahasa Menawi, "SIAPA NAMAN ANDA" adalah "Wonomu Fidoni?".</template
+    <pattern>SIAPA NAMA ANDA?</pattern>
+    <template>Dalam Bahasa Menawi, "SIAPA NAMAN ANDA" adalah "Wonomu Fidoni?".</template>
   </category>
 
   <category>
-    <pattern>NAMA SAYA</pattern
-    <template>Dalam Bahasa Menawi, "NAMA SAYA" adalah "Wonomu Fenina"</template
+    <pattern>NAMA SAYA</pattern>
+    <template>Dalam Bahasa Menawi, "NAMA SAYA" adalah "Wonomu Fenina"</template>
   </category>
 
   <category>
-    <pattern>SELAMAT DATANG</pattern
-    <template>Dalam Bahasa Menawi, "SELAMAT DATANG" adalah "Mahikai romanina".</template
+    <pattern>SELAMAT DATANG</pattern>
+    <template>Dalam Bahasa Menawi, "SELAMAT DATANG" adalah "Mahikai romanina".</template>
   </category>
 
   <category>
-    <pattern>SELAMAT TINGGAL</pattern
-    <template>Dalam Bahasa Menawi, "SELAMAT TINGGAl" adalah "Nemu Mahikai".</template
+    <pattern>SELAMAT TINGGAL</pattern>
+    <template>Dalam Bahasa Menawi, "SELAMAT TINGGAl" adalah "Nemu Mahikai".</template>
   </category>
 
  <category>
-    <pattern>SAMPAI JUMPA</pattern
-    <template>Dalam Bahasa Menawi, "SAMPAI JUMPA" adalah "Mahikai tukanggung tuampa"</template
+    <pattern>SAMPAI JUMPA</pattern>
+    <template>Dalam Bahasa Menawi, "SAMPAI JUMPA" adalah "Mahikai tukanggung tuampa"</template>
   </category>
 
  <category>
-    <pattern>APA YANG BISA SAYA BANTU</pattern
-    <template>Dalam Bahasa Menawi, "APA YANG BISA SAYA BANTU" adalah "Wifinie joyonaine".</template
+    <pattern>APA YANG BISA SAYA BANTU</pattern>
+    <template>Dalam Bahasa Menawi, "APA YANG BISA SAYA BANTU" adalah "Wifinie joyonaine".</template>
   </category>
 
  <category>
-    <pattern>APA YANG SEDANG KAMU LAKUKAN</pattern
-    <template>Dalam Bahasa Menawi, "APA YANG SEDANG KAMU LAKUKAN" adalah "Fianai menarai nee?".</template
+    <pattern>APA YANG SEDANG KAMU LAKUKAN</pattern>
+    <template>Dalam Bahasa Menawi, "APA YANG SEDANG KAMU LAKUKAN" adalah "Fianai menarai nee?".</template>
   </category>
 
  <category>
-    <pattern>MAU KEMANA</pattern
-    <template>Dalam Bahasa Menawi, "MAU KEMANA" adalah "Rodoni".</template
+    <pattern>MAU KEMANA</pattern>
+    <template>Dalam Bahasa Menawi, "MAU KEMANA" adalah "Rodoni".</template>
   </category>
 
  <category>
-    <pattern>SAYA SENANG BERTEMU DENGAN ANDA</pattern
-    <template>Dalam Bahasa Menawi, "SENANG BERTEMU DENGAN ANDA" adalah ""Marising tufadui turu.</template
+    <pattern>SAYA SENANG BERTEMU DENGAN ANDA</pattern>
+    <template>Dalam Bahasa Menawi, "SENANG BERTEMU DENGAN ANDA" adalah "Marising tufadui turu".</template>
   </category>
 
  <category>
-    <pattern>SEMOGA HARI-MU MENYENANGKAN</pattern
-    <template>Dalam Bahasa menawi, "SEMOGA HARI-MU MENYENANGKAN" adalah ""Rahidiri enumorong merising.</template
+    <pattern>SEMOGA HARI MU MENYENANGKAN</pattern>
+    <template>Dalam Bahasa menawi, "SEMOGA HARI MU MENYENANGKAN" adalah ""Rahidiri enumorong merising.</template>
   </category>
-
- <category>
-    <pattern></pattern
-    <template></template
-  </category>
-
 
   <category>
     <pattern>SAYA HAUS</pattern>
