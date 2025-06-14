@@ -6,26 +6,26 @@ require_once '../../db.php'; // Koneksi ke database
 $input = json_decode(file_get_contents('php://input'), true);
 
 // Validasi ID
-if (!isset($input['id'])) {
+if (!isset($input['id']) || !is_numeric($input['id'])) {
     http_response_code(400);
-    echo json_encode(['error' => 'ID data tidak ditemukan']);
+    echo json_encode(['error' => 'ID data tidak valid atau tidak ditemukan']);
     exit;
 }
 
 $id = intval($input['id']);
 
-// Hapus data dari tabel ai_training_messages
-$sql = "DELETE FROM ai_training_messages WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
+try {
+    // Siapkan dan eksekusi statement
+    $stmt = $conn->prepare("DELETE FROM ai_training_messages WHERE id = :id");
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Data berhasil dihapus']);
-} else {
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true, 'message' => 'Data berhasil dihapus']);
+    } else {
+        http_response_code(500);
+        echo json_encode(['error' => 'Gagal menghapus data']);
+    }
+} catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(['error' => 'Gagal menghapus data: ' . $stmt->error]);
+    echo json_encode(['error' => 'Kesalahan database: ' . $e->getMessage()]);
 }
-
-$stmt->close();
-$conn->close();
-?>

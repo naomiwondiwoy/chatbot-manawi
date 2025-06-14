@@ -12,18 +12,20 @@ if (
     exit;
 }
 
-$role = $conn->real_escape_string(trim($_POST['role']));
-$content = $conn->real_escape_string(trim($_POST['content']));
+$role = trim($_POST['role']);
+$content = trim($_POST['content']);
 
-// Insert data ke tabel ai_training_messages
-$sql = "INSERT INTO ai_training_messages (role, content) VALUES ('$role', '$content')";
+try {
+    // Prepare statement dengan bind parameter untuk keamanan
+    $stmt = $conn->prepare("INSERT INTO ai_training_messages (role, content) VALUES (:role, :content)");
+    $stmt->bindParam(':role', $role);
+    $stmt->bindParam(':content', $content);
 
-if ($conn->query($sql) === TRUE) {
+    $stmt->execute();
+
     echo json_encode(['success' => true, 'message' => 'Data berhasil ditambahkan']);
-} else {
+} catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(['error' => 'Gagal menambahkan data: ' . $conn->error]);
+    echo json_encode(['error' => 'Gagal menambahkan data: ' . $e->getMessage()]);
 }
-
-$conn->close();
 ?>

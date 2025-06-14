@@ -1,22 +1,19 @@
 <?php
 header('Content-Type: application/json');
-require_once '../../db.php'; // Koneksi ke database
+require_once '../../db.php'; // $conn = PDO
 
+try {
+    // Query untuk mengambil data pesan
+    $sql = "SELECT id, user_message, bot_response, created_at FROM chat_history ORDER BY created_at DESC";
+    $stmt = $conn->query($sql); // Karena tidak ada parameter, langsung pakai query()
 
-// Query untuk mengambil data pesan
-$sql = "SELECT id, user_message, bot_response, created_at FROM chat_history ORDER BY created_at DESC";
-$result = $conn->query($sql);
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$data = [];
-
-if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $data[] = $row;
-    }
+    echo json_encode($data);
+} catch (PDOException $e) {
+    echo json_encode([
+        'error' => true,
+        'message' => 'Gagal mengambil data: ' . $e->getMessage()
+    ]);
 }
-
-$conn->close();
-
-// Output dalam format JSON
-echo json_encode($data);
 ?>

@@ -2,7 +2,7 @@
 // Koneksi database
 $host = "localhost";
 $user = "root";
-$pass = "";
+$pass = "root";
 $db   = "menawi_chatbot_db"; // ganti dengan nama database Anda
 
 

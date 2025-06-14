@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once '../../db.php'; // sesuaikan path koneksi DB
+require_once '../../db.php'; // Koneksi PDO
 
 $uploadDir = '../../audio/';
 if (!is_dir($uploadDir)) {
@@ -16,19 +16,16 @@ if (
     exit;
 }
 
-$indonesia = $conn->real_escape_string(trim($_POST['indonesia']));
-$menawi = $conn->real_escape_string(trim($_POST['menawi']));
+$indonesia = trim($_POST['indonesia']);
+$menawi = trim($_POST['menawi']);
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 
 $audioPath = '';
 if (isset($_FILES['audio_menawi']) && $_FILES['audio_menawi']['error'] == UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['audio_menawi']['tmp_name'];
     $fileName = basename($_FILES['audio_menawi']['name']);
-    $fileSize = $_FILES['audio_menawi']['size'];
-    $fileType = $_FILES['audio_menawi']['type'];
-
-    $allowedExtensions = ['mp3', 'wav', 'ogg', 'm4a'];
     $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+    $allowedExtensions = ['mp3', 'wav', 'ogg', 'm4a'];
 
     if (!in_array($ext, $allowedExtensions)) {
         http_response_code(400);
@@ -48,30 +45,43 @@ if (isset($_FILES['audio_menawi']) && $_FILES['audio_menawi']['error'] == UPLOAD
     }
 }
 
-if ($id > 0) {
-    // Update data
-    if (!empty($audioPath)) {
-        $sql = "UPDATE dictionary SET indonesia='$indonesia', menawi='$menawi', audio_menawi='$audioPath' WHERE id=$id";
-    } else {
-        $sql = "UPDATE dictionary SET indonesia='$indonesia', menawi='$menawi' WHERE id=$id";
-    }
+try {
+    if ($id > 0) {
+        // Update
+        if (!empty($audioPath)) {
+            $sql = "UPDATE dictionary SET indonesia = :indonesia, menawi = :menawi, audio_menawi = :audio WHERE id = :id";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':indonesia' => $indonesia,
+                ':menawi' => $menawi,
+                ':audio' => $audioPath,
+                ':id' => $id
+            ]);
+        } else {
+            $sql = "UPDATE dictionary SET indonesia = :indonesia, menawi = :menawi WHERE id = :id";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':indonesia' => $indonesia,
+                ':menawi' => $menawi,
+                ':id' => $id
+            ]);
+        }
 
-    if ($conn->query($sql) === TRUE) {
         echo json_encode(['success' => true, 'message' => 'Data berhasil diperbarui']);
     } else {
-        http_response_code(500);
-        echo json_encode(['error' => 'Gagal memperbarui data: ' . $conn->error]);
-    }
-} else {
-    // Insert data
-    $sql = "INSERT INTO dictionary (indonesia, menawi, audio_menawi) VALUES ('$indonesia', '$menawi', '$audioPath')";
+        // Insert
+        $sql = "INSERT INTO dictionary (indonesia, menawi, audio_menawi) VALUES (:indonesia, :menawi, :audio)";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            ':indonesia' => $indonesia,
+            ':menawi' => $menawi,
+            ':audio' => $audioPath
+        ]);
 
-    if ($conn->query($sql) === TRUE) {
         echo json_encode(['success' => true, 'message' => 'Data berhasil ditambahkan']);
-    } else {
-        http_response_code(500);
-        echo json_encode(['error' => 'Gagal menambahkan data: ' . $conn->error]);
     }
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 }
-
-$conn->close();
+?>

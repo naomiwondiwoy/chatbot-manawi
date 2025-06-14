@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once '../../db.php'; // Koneksi ke database
+require_once '../../db.php'; // $conn adalah objek PDO
 
 $input = json_decode(file_get_contents('php://input'), true);
 
@@ -12,37 +12,34 @@ if (!isset($input['id'])) {
 
 $id = intval($input['id']);
 
-// Ambil nama file audio sebelum menghapus
-$getAudio = $conn->prepare("SELECT audio_menawi FROM dictionary WHERE id = ?");
-$getAudio->bind_param("i", $id);
-$getAudio->execute();
-$result = $getAudio->get_result();
-$audioFile = '';
-
-if ($row = $result->fetch_assoc()) {
-    $audioFile = $row['audio_menawi'];
-}
-$getAudio->close();
-
-// Lanjut hapus data dari database
-$sql = "DELETE FROM dictionary WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
-
-if ($stmt->execute()) {
-    // Hapus file audio jika ada
-    if (!empty($audioFile)) {
-        $filePath = "../../" . $audioFile; // Pastikan path sesuai
-        if (file_exists($filePath)) {
-            unlink($filePath); // Hapus file
-        }
+try {
+    // Ambil nama file audio sebelum menghapus
+    $stmtAudio = $conn->prepare("SELECT audio_menawi FROM dictionary WHERE id = ?");
+    $stmtAudio->execute([$id]);
+    $audioFile = '';
+    
+    if ($row = $stmtAudio->fetch(PDO::FETCH_ASSOC)) {
+        $audioFile = $row['audio_menawi'];
     }
 
-    echo json_encode(['success' => true, 'message' => 'Data dan audio berhasil dihapus']);
-} else {
-    http_response_code(500);
-    echo json_encode(['error' => 'Gagal menghapus data: ' . $stmt->error]);
-}
+    // Hapus data dari database
+    $stmtDelete = $conn->prepare("DELETE FROM dictionary WHERE id = ?");
+    if ($stmtDelete->execute([$id])) {
+        // Hapus file audio jika ada
+        if (!empty($audioFile)) {
+            $filePath = "../../" . $audioFile;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
 
-$stmt->close();
+        echo json_encode(['success' => true, 'message' => 'Data dan audio berhasil dihapus']);
+    } else {
+        http_response_code(500);
+        echo json_encode(['error' => 'Gagal menghapus data']);
+    }
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Kesalahan server: ' . $e->getMessage()]);
+}
 ?>

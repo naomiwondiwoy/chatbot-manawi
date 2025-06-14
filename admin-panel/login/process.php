@@ -1,17 +1,10 @@
 <?php
-
-
-// $hashed = password_hash("admin123", PASSWORD_BCRYPT);
-// echo $hashed;
-
-
-// Set header untuk JSON response
 header('Content-Type: application/json');
 
-// Ambil data JSON dari JavaScript
+// Ambil data dari request
 $data = json_decode(file_get_contents('php://input'), true);
 
-// Cek data
+// Validasi input
 if (!isset($data['username']) || !isset($data['password'])) {
     echo json_encode(['success' => false, 'message' => 'Data tidak lengkap']);
     exit;
@@ -20,27 +13,21 @@ if (!isset($data['username']) || !isset($data['password'])) {
 $username = $data['username'];
 $password = $data['password'];
 
-require_once '../../db.php'; // Koneksi ke database
+require_once '../../db.php'; // Sudah pakai PDO, bagus
 
-// Query cari user
-$stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
-$stmt->bind_param("s", $username);
-$stmt->execute();
-$stmt->store_result();
+try {
+    $stmt = $conn->prepare("SELECT password FROM users WHERE username = :username");
+    $stmt->bindParam(':username', $username);
+    $stmt->execute();
 
-if ($stmt->num_rows === 1) {
-    $stmt->bind_result($hashed_password);
-    $stmt->fetch();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (password_verify($password, $hashed_password)) {
+    if ($user && password_verify($password, $user['password'])) {
         echo json_encode(['success' => true]);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Password salah']);
+        echo json_encode(['success' => false, 'message' => 'Username atau password salah']);
     }
-} else {
-    echo json_encode(['success' => false, 'message' => 'Username tidak ditemukan']);
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'message' => 'Kesalahan server']);
 }
-
-$stmt->close();
-$conn->close();
 ?>

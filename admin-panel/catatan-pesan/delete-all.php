@@ -1,18 +1,20 @@
 <?php
 header('Content-Type: application/json');
-require_once '../../db.php'; // Sesuaikan path jika perlu
+require_once '../../db.php'; // $conn adalah objek PDO
 
 try {
     $sql = "DELETE FROM chat_history";
-    if ($conn->query($sql) === TRUE) {
+    $stmt = $conn->prepare($sql);
+    
+    if ($stmt->execute()) {
         echo json_encode(['success' => true]);
     } else {
         echo json_encode([
             'success' => false,
-            'message' => $conn->error
+            'message' => 'Gagal menghapus data'
         ]);
     }
-} catch (Exception $e) {
+} catch (PDOException $e) {
     echo json_encode([
         'success' => false,
         'message' => $e->getMessage()

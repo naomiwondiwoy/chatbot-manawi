@@ -1,21 +1,20 @@
 <?php
 header('Content-Type: application/json');
-require_once '../../db.php'; // Koneksi ke database
+require_once '../../db.php'; // $conn adalah objek PDO
 
-// Query untuk mengambil data pesan
-$sql = "SELECT id, indonesia, menawi, audio_menawi FROM dictionary ORDER BY indonesia ASC";
-$result = $conn->query($sql);
+try {
+    // Query untuk mengambil data
+    $sql = "SELECT id, indonesia, menawi, audio_menawi FROM dictionary ORDER BY indonesia ASC";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
 
-$data = [];
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $data[] = $row;
-    }
+    echo json_encode($data);
+} catch (PDOException $e) {
+    echo json_encode([
+        'error' => true,
+        'message' => 'Gagal mengambil data: ' . $e->getMessage()
+    ]);
 }
-
-$conn->close();
-
-// Output dalam format JSON
-echo json_encode($data);
 ?>
