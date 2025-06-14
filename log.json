@@ -1,8 +1,6 @@
 {
-    "keyword": "tess",
+    "keyword": "Bapak",
     "response": {
-        "status": "found",
-        "menawi": "tess",
-        "audio": "audio\/1749604671_roa.mp3"
+        "status": "not_found"
     }
 }
