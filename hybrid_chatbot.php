@@ -1,44 +1,61 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
+ini_set('display_errors', 0); // suppress warning to avoid HTML response
+error_reporting(E_ALL);
+
+require_once 'env.php';
 require_once 'aiml_parser.php';
-require_once 'db.php'; // pastikan db.php pakai PDO
+require_once 'db.php'; // pastikan $conn sudah siap
+loadEnv(__DIR__ . '/.env');
 
-$apiToken = getenv('API_TOKEN');
-$model = getenv('MODEL_NAME');
+// Ambil konfigurasi
+$apiToken = getenv('API_TOKEN') ?: '';
+$model = getenv('MODEL_NAME') ?: '';
 
-// Ambil pesan dari database
-function getMessagesFromDB($conn) {
-    $sql = "SELECT role, content FROM ai_training_messages ORDER BY id ASC";
-    $stmt = $conn->query($sql);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Validasi jika variabel belum terisi
+if (!$apiToken || !$model) {
+    echo json_encode(['error' => 'Konfigurasi model atau token tidak ditemukan.']);
+    exit;
 }
 
-$message = isset($_POST['message']) ? trim($_POST['message']) : '';
+// Fungsi ambil data training
+function getMessagesFromDB($conn) {
+    try {
+        $sql = "SELECT role, content FROM ai_training_messages ORDER BY id ASC";
+        $stmt = $conn->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        return [];
+    }
+}
 
+// Ambil input user
+$message = isset($_POST['message']) ? trim($_POST['message']) : '';
 if (!$message) {
     echo json_encode(['error' => 'Silakan ketik pesan terlebih dahulu.']);
     exit;
 }
 
-// Coba jawab via AIML
+// Coba jawab dari AIML parser
 $response = parseAIML($message);
 
+// Jika tidak ditemukan di AIML, pakai Groq
 if ($response === null) {
     $messages = getMessagesFromDB($conn);
 
-    // Tambahkan prompt sistem
+    // Prompt sistem
     array_unshift($messages, [
         'role' => 'system',
         'content' => 'Jawablah dengan data yang sudah ada, tapi jika tidak cukup, kamu boleh memberikan jawaban berdasarkan pengetahuan umum.'
     ]);
 
-    // Tambahkan pesan user
+    // Tambah input user
     $messages[] = [
         'role' => 'user',
         'content' => $message
     ];
 
-    // Buat payload ke Groq
+    // Buat payload
     $payload = [
         'model' => $model,
         'messages' => $messages,
@@ -46,6 +63,7 @@ if ($response === null) {
         'max_tokens' => 150
     ];
 
+    // Kirim ke Groq
     $ch = curl_init('https://api.groq.com/openai/v1/chat/completions');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -66,15 +84,19 @@ if ($response === null) {
 
     $responseData = json_decode($result, true);
 
-    if (isset($responseData['error'])) {
-        echo json_encode(['error' => 'Groq API error: ' . $responseData['error']['message']]);
+    // ✅ Perbaikan bagian ini
+    if (!is_array($responseData) || !isset($responseData['choices'][0]['message']['content'])) {
+        $apiError = is_array($responseData) && isset($responseData['error']['message'])
+            ? $responseData['error']['message']
+            : 'Respon Groq tidak dikenali.';
+        echo json_encode(['error' => 'Groq API error: ' . $apiError]);
         exit;
     }
 
-    $response = trim($responseData['choices'][0]['message']['content'] ?? "Maaf, saya belum bisa merespons saat ini.");
+    $response = trim($responseData['choices'][0]['message']['content']);
 }
 
-// Simpan chat ke database
+// Simpan ke database
 try {
     $stmt = $conn->prepare("INSERT INTO chat_history (user_message, bot_response) VALUES (:user_message, :bot_response)");
     $stmt->bindParam(':user_message', $message);
@@ -85,4 +107,6 @@ try {
     exit;
 }
 
+// Kirim response ke frontend
 echo json_encode(['reply' => $response]);
+exit;
